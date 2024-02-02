@@ -4,6 +4,8 @@ import utilStyles from '../styles/utils.module.css';
 import { getSortedPostsData } from '../lib/posts';
 import Link from 'next/link';
 import Date from '../components/date';
+import React, { useState } from 'react';
+import TextInput from '../components/textInput';
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
@@ -15,20 +17,32 @@ export async function getStaticProps() {
 }
 
 export default function Home({allPostsData}) {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.headingMd}>
-        <p>[Your Self Introduction]</p>
-        <p>
-          (This is a sample website - you’ll be building a site like this on{' '}
-          <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
-        </p>
+        <p>We are developing an AI tool to assist people do job hunting.</p>      
+        <div>
+      <h2 className={utilStyles.headingXl}>Job description optimizer</h2>
+      <TextInput
+        placeholder="Please enter your job description here..."
+        onChange={handleInputChange}
+        value={inputValue}
+      />
+      <p className={utilStyles.headingLg}>Job Description Summary:</p>
+      <p className={utilStyles.lightText}>{inputValue}</p>
+    </div>
       </section>
 
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+      {/* <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
           {allPostsData.map(({ id, date, title }) => (
@@ -41,7 +55,7 @@ export default function Home({allPostsData}) {
           </li>
           ))}
         </ul>
-      </section>
+      </section> */}
     </Layout>
   );
 }
